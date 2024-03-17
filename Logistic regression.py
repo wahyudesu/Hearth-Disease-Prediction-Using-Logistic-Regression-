@@ -17,6 +17,11 @@ df=df.drop_duplicates()
 print(df.shape)
 
 #------------------Data mapping ------------------
+'''
+Data mapping adalah telnik yang biasa digunakan untuk mengubah beberapa type
+data dengan mengubah format supaya mudah dipakai di algoritma machine learning
+untuk meningkatkan performa model. Seperti contoh 
+'''
 #Data mapping is a technique used to transform different types of data 
 #to a common format that is suitable for machine learning models to improve 
 #the model's performance. For example, BMI, a continuous variable, can be mapped
