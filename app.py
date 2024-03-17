@@ -1,5 +1,4 @@
 # Import necessary libraries
-
 import streamlit as st
 import numpy as np
 import pandas  as pd
@@ -8,10 +7,11 @@ from sklearn.metrics import accuracy_score
 import pickle
 from sklearn.linear_model import LogisticRegression
 
-# App logo [optionnal]
+# Logo [optionnal]
 st.image("gambar anime.webp", use_column_width=True)
 
 # create streamlit interface, asome info about the app
+'''
 st.write("""
          ## In just a few seconds, you can calculate your risk of developing heart disease!
       the app is built based on the 2020 annual CDC survey data of 400k  adults related to their health status,
@@ -19,28 +19,26 @@ st.write("""
         To learn more about the data, check the following link: [Key Indicators of Heart Disease](https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease). 
         If you are interested to check my code, check my github using the following link: [Github](https://github.com/lamisghoualmi/App-Personal-Key-Indicators-of-Heart-Disease). Note: this results are not equivalent to a medical diagnosis!  
          """)
+'''
 st.write("""
          ### To predict your heart disease status:
-         ###### 1- Enter the parameters that best describe you.
-         ###### 2- Press the "Predict" button and wait for the result.
+         ###### 1- Masukkan parameters sesuai dengan keadaan kesehatanmu di sidebar samping ini.
+         ###### 2- Penced "Predict" button dan tunggu hasilnya.
          """)
 
-
+st.subheader("Created by Wahyu Ikbal Maulana From SDT B")
 
 # st.write(BMIdata)
 
-# Thesidebar func tion from streamlit is used to create a sidebar for users 
-# to input their information.
+# Sidebar input
 # -------------------------------------------------------------------------
-st.sidebar.title('Please, fill your informations to predict your heart condition')
+st.sidebar.title('Jawab pertanyaan-pertanyaan berikut')
 
-
-
-BMI=st.sidebar.selectbox("Select your BMI", ("Normal weight BMI  (18.5-25)", 
-                             "Underweight BMI (< 18.5)" ,
-                             "Overweight BMI (25-30)",
-                             "Obese BMI (> 30)"))
-Age=st.sidebar.selectbox("Select your age", 
+BMI=st.sidebar.selectbox("Berapa BMI mu", ("Normal weight BMI  (18.5-25)", 
+                             "Kurus BMI (< 18.5)" ,
+                             "Gemuk dikit BMI (25-30)",
+                             "Obesitas BMI (> 30)"))
+Age=st.sidebar.selectbox("Pilih rentang tahun", 
                             ("18-24", 
                              "25-29" ,
                              "30-34",
@@ -56,43 +54,41 @@ Age=st.sidebar.selectbox("Select your age",
                              "55-59",
                              "80 or older"))
 
-Race=st.sidebar.selectbox("Select your Race", ("Asian", 
-                             "Black" ,
+Race=st.sidebar.selectbox("Pilih ras kamu", ("Asian", 
+                             "Nigga" ,
                              "Hispanic",
-                             "American Indian/Alaskan Native",
-                             "White",
+                             "American Indian/Alaska Native",
+                             "Sipit",
                              "Other"
                              ))
 
-Gender=st.sidebar.selectbox("Select your gender", ("Female", 
-                             "Male" ))
+Gender=st.sidebar.selectbox("Pilih jenis kelamin", ("Perempuan", 
+                             "Laki-laki" ))
 Smoking = st.sidebar.selectbox("Have you smoked more than 100 cigarettes in"
                           " your entire life ?)",
                           options=("No", "Yes"))
-alcoholDink = st.sidebar.selectbox("How many drinks of alcohol do you have in a week?", options=("No", "Yes"))
-stroke = st.sidebar.selectbox("Did you have a stroke?", options=("No", "Yes"))
+alcoholDink = st.sidebar.selectbox("Apakah kamu sering minum alkohol?", options=("No", "Yes"))
+stroke = st.sidebar.selectbox("Pernah stroke?", options=("No", "Yes"))
 
-sleepTime = st.sidebar.number_input("Hours of sleep per 24h", 0, 24, 7) 
+sleepTime = st.sidebar.number_input("Berapa jam kamu tidur dalam sehari?", 0, 24, 7) 
 
-genHealth = st.sidebar.selectbox("General health",
+genHealth = st.sidebar.selectbox("Kesehatanmu?",
                              options=("Good","Excellent", "Fair", "Very good", "Poor"))
 
-physHealth = st.sidebar.number_input("Physical health in the past month (Excelent: 0 - Very bad: 30)"
+physHealth = st.sidebar.number_input("Berapa skor nilai fisikmu? (Excelent: 0 - Very bad: 30)"
                                  , 0, 30, 0)
-mentHealth = st.sidebar.number_input("Mental health in the past month (Excelent: 0 - Very bad: 30)"
+mentHealth = st.sidebar.number_input("Skor Mental health  (Excelent: 0 - Very bad: 30)"
                                  , 0, 30, 0)
-physAct = st.sidebar.selectbox("Physical activity in the past month"
+physAct = st.sidebar.selectbox("Sering olahraga?"
                            , options=("No", "Yes"))
 
-
-
-diffWalk = st.sidebar.selectbox("Do you have serious difficulty walking"
-                            " or climbing stairs?", options=("No", "Yes"))
-diabetic = st.sidebar.selectbox("Have you ever had diabetes?",
+diffWalk = st.sidebar.selectbox("Apakah kamu mengalami kesulitan untuk berjalan"
+                            " atau naik tangga?", options=("No", "Yes"))
+diabetic = st.sidebar.selectbox("Pernah diabetes?",
                            options=("No", "Yes", "Yes, during pregnancy", "No, borderline diabetes"))
-asthma = st.sidebar.selectbox("Do you have asthma?", options=("No", "Yes"))
-kidneyDisease= st.sidebar.selectbox("Do you have kidney disease?", options=("No", "Yes"))
-skinCancer = st.sidebar.selectbox("Do you have skin cancer?", options=("No", "Yes"))
+asthma = st.sidebar.selectbox("Punya riwayat penyakit asma?", options=("No", "Yes"))
+kidneyDisease= st.sidebar.selectbox("Punya riwayat penyakit ginjal?", options=("No", "Yes"))
+skinCancer = st.sidebar.selectbox("Punya riwayat penyakit kanker??", options=("No", "Yes"))
 
 dataToPredic = pd.DataFrame({
    "BMI": [BMI],
@@ -148,16 +144,16 @@ dataToPredic.replace("Very good",3,inplace=True)
 dataToPredic.replace("Poor",4,inplace=True)
 
 
-dataToPredic.replace("White",0,inplace=True)
+dataToPredic.replace("Sipit",0,inplace=True)
 dataToPredic.replace("Other",1,inplace=True)
-dataToPredic.replace("Black",2,inplace=True)
+dataToPredic.replace("Nigga",2,inplace=True)
 dataToPredic.replace("Hispanic",3,inplace=True)
 dataToPredic.replace("Asian",4,inplace=True)
 dataToPredic.replace("American Indian/Alaskan Native",4,inplace=True)
 
 
-dataToPredic.replace("Female",0,inplace=True)
-dataToPredic.replace("Male",1,inplace=True)
+dataToPredic.replace("Perempuan",0,inplace=True)
+dataToPredic.replace("Laki-laki",1,inplace=True)
 
 # Load the previously saved machine learning model
 filename='finalized_model.sav'
